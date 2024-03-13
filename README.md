@@ -94,7 +94,21 @@ print(score)
 ### [영준](./코드트리%20파일관리/영준.py)
 
 ```py
+import heapq
 
+N = int(input())
+arr = list(map(int, input().split()))
+
+heapq.heapify(arr)
+
+s = 0
+while len(arr)>1:
+    a = heapq.heappop(arr)
+    b = heapq.heappop(arr)
+    heapq.heappush(arr, a+b)
+    s += a+b
+
+print(s)
 ```
 
 ## [점프점프](https://www.codetree.ai/problems/jump-jump/description)
