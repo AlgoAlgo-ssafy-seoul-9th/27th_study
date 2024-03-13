@@ -11,7 +11,6 @@
 
 ## [미정](https://www.acmicpc.net/problem/11286)
 
-### ❗ heapq 쓰지 않고 만들어 쓰기 ❗
 
 ### [민웅](./절댓값%20힙/민웅.py)
 
@@ -50,6 +49,152 @@
 
 <details markdown="1">
 <summary>접기/펼치기</summary>
+
+## [코드트리 파일관리](https://www.codetree.ai/problems/codetree-file-management/description)
+
+### [민웅](./코드트리%20파일관리/민웅.py)
+
+```py
+import sys
+import heapq
+input = sys.stdin.readline
+
+N = int(input())
+
+n_lst = list(map(int, input().split()))
+hq = []
+
+for i in range(N):
+    heapq.heappush(hq, n_lst.pop())
+
+check = N
+score = 0
+while check > 1:
+    tmp1 = heapq.heappop(hq)
+    tmp2 = heapq.heappop(hq)
+    score += tmp1 + tmp2
+    heapq.heappush(hq, tmp1+tmp2)
+    check -= 1
+
+print(score)
+```
+
+### [상미](./코드트리%20파일관리/상미.py)
+
+```py
+
+```
+
+### [성구](./코드트리%20파일관리/성구.py)
+
+```py
+
+```
+
+### [영준](./코드트리%20파일관리/영준.py)
+
+```py
+
+```
+
+## [점프점프](https://www.codetree.ai/problems/jump-jump/description)
+
+### [민웅](./점프점프/민웅.py)
+
+```py
+import sys
+
+N = int(input())
+
+n_lst = list(map(int, input().split()))
+
+dp = [0]*N
+
+for i in range(N-1):
+    tmp = n_lst[i]
+    for j in range(i+1, min(i+tmp+1, N)):
+        dp[j] = max(dp[j], dp[i]+1)
+
+print(max(dp))
+```
+
+### [상미](./점프점프/상미.py)
+
+```py
+
+```
+
+### [성구](./점프점프/성구.py)
+
+```py
+
+```
+
+### [영준](./점프점프/영준.py)
+
+```py
+
+```
+
+## [거리두기](https://www.codetree.ai/problems/keeping-distance/description)
+
+### [민웅](./거리두기/민웅.py)
+
+```py
+import sys
+input = sys.stdin.readline
+
+def check(num):
+    cnt = 1
+    tmp_sum = 0
+    for i in range(N):
+        tmp_sum += n_lst[i]
+        if tmp_sum > num:
+            cnt += 1
+            tmp_sum = n_lst[i]
+        if cnt > M+1:
+            return cnt
+    
+    return cnt
+
+N, M = map(int, input().split())
+n_lst = list(map(int, input().split()))
+
+max_num = sum(n_lst)
+l = max(n_lst)
+r = max_num
+ans = -1
+while l <= r:
+    mid = (l+r)//2
+    tmp = check(mid)
+
+    if tmp > M+1:
+        l = mid + 1
+    else:
+        ans = mid
+        r = mid - 1
+    # print(l, r)
+
+print(ans)
+```
+
+### [상미](./거리두기/상미.py)
+
+```py
+
+```
+
+### [성구](./거리두기/성구.py)
+
+```py
+
+```
+
+### [영준](./거리두기/영준.py)
+
+```py
+
+```
 
 ## [회사 문화 1](https://www.acmicpc.net/problem/14267)
 
@@ -163,34 +308,6 @@ print(min(dp[1]))
 
 ```py
 
-
-```
-
-## [미로 탈출하기](https://www.codetree.ai/problems/escape-the-maze/description)
-
-### [민웅](./미로%20탈출하기/민웅.py)
-
-```py
-
-```
-
-### [상미](./미로%20탈출하기/상미.py)
-
-```py
-
-```
-
-### [성구](./미로%20탈출하기/성구.py)
-
-```py
-
-```
-
-### [영준](./미로%20탈출하기/영준.py)
-
-```py
-
-
 ```
 
 </details>
@@ -202,6 +319,6 @@ print(min(dp[1]))
 <details markdown="1">
 <summary>접기/펼치기</summary>
 
-[알고리즘 설명](https://l1m3kun.tistory.com/entry/%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98-%EC%9A%B0%EC%84%A0%EC%88%9C%EC%9C%84-%ED%81%90%EC%99%80-%ED%9E%99Priority-Queue-Heap)
+
 
 </details>
