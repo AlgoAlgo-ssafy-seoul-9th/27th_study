@@ -1,24 +1,34 @@
-# 2533 사회망 서비스
+# 14267 회사 문화 1
 import sys
-sys.setrecursionlimit(10**6)
 input = sys.stdin.readline
 
 
-N = int(input())
-graph = [[] for _ in range(N+1)]
-for _ in range(N-1):
-    u, v = map(int, input().split())
-    graph[u].append(v)
-    graph[v].append(u)
- 
-def dfs(x:int, parent:int):
-    zero, one = 0, 1
-    for node in graph[x]:
-        if node == parent:
+def solution():
+    N, M = map(int, input().split())
+    parent = tuple(map(int, input().split()))
+    child = [[] for _ in range(N)]
+    start = 0
+    for i in range(N):
+        if parent[i] == -1:
+            start = i
             continue
-        pz, po = dfs(node, x)
-        zero += po
-        one += min(pz, po)
-    return zero, one
+        child[parent[i]-1].append(i)
+    
+    claps = [0] * N
+    for _ in range(M):
+        i, w = map(int, input().split())
+        claps[i-1] += w
+    
+    stack = [start] 
+    while stack:
+        spot = stack.pop()
+        for node in child[spot]:
+            stack.append(node)
+            claps[node] += claps[spot]
+    
+    print(*claps)
+    return
 
-print(min(dfs(1,0)))
+
+if __name__ == "__main__":
+    solution()
