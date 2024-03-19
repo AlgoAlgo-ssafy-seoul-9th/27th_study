@@ -602,6 +602,8 @@ print(min(dfs(1,0)))
 <details markdown="1">
 <summary>접기/펼치기</summary>
 
+### [세그먼트 트리](https://coyote.tistory.com/9)
 
+![예시사진](./images/graph.png)
 
 </details>
