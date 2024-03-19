@@ -2,7 +2,77 @@
 import sys
 input = sys.stdin.readline
 
+# 반복문 구현
+ 
+class SegmentTree:
 
+    def __init__(self, arr:list) -> None:
+        self.N = len(arr)
+        self.tree = [[0,0] for _ in range(self.N << 1)]
+        self.build(arr)
+        return
+    
+    def build(self, arr:list) -> None:
+        for i in range(self.N):
+            self.tree[i+self.N] = (arr[i], i+1)
+
+        for i in range(self.N-1, 0, -1):
+            self.tree[i] = min(self.tree[i<<1], self.tree[(i<<1)+1], key=lambda x:(x[0],x[1]))
+
+        return
+
+    def update(self, idx:int, val:int) -> None:
+        index = idx-1+self.N
+        self.tree[index] = (val, idx)
+
+        index >>= 1
+
+        while index:
+            self.tree[index] = min(self.tree[index<<1], self.tree[(index<<1)+1], key=lambda x:(x[0],x[1]))
+            index >>= 1
+        return
+    
+
+    def find(self, start:int, end:int) -> int:
+        start += self.N-1
+        end += self.N
+
+        result = (10**9+1, 0)
+        
+        while start < end:
+            if start & 1:
+                result = min(result, self.tree[start], key=lambda x:(x[0],x[1]))
+                start += 1
+            
+            if end & 1:
+                end -= 1
+                result = min(result, self.tree[end], key=lambda x:(x[0],x[1]))
+
+            start >>= 1
+            end >>= 1
+        
+        return result[1]
+
+
+def main():
+    N = int(input())
+    arr = list(map(int, input().split()))
+    ST = SegmentTree(arr)
+    for _ in range(int(input())):
+        order, i, v = map(int, input().split())
+        if order & 1:
+            ST.update(i, v)
+        else:
+            print(ST.find(i, v))
+
+
+
+if __name__ == "__main__":
+    main()
+
+
+
+''' 재귀 구현
 class SegmentTree:
     def __init__(self, arr:list) -> None:
         self.segment_tree = [10**9] + [10**9] * (4*len(arr))
@@ -93,3 +163,4 @@ if __name__ == "__main__":
     main()
 
 
+'''
