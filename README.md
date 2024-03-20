@@ -11,7 +11,6 @@
 
 ## [수열과 쿼리16](https://www.acmicpc.net/problem/14428)
 
-
 ### [민웅](</수열과 쿼리16/민웅.py>)
 
 ```py
@@ -96,7 +95,43 @@ for _ in range(M):
 ### [상미](</수열과 쿼리16/상미.py>)
 
 ```py
+import sys
+input = sys.stdin.readline
 
+# def Query1(lst, a, b):
+#     lst[a-1] = b
+#     return lst
+
+# def Query2(lst, a, b):
+#     minV = 1000000000
+#     for i in range(a-1, b):
+#         if minV > lst[i]:
+#             minV = lst[i]
+#             ans = i+1
+#     return ans
+
+N = int(input())
+lst = list(map(int, input().split()))
+tree = [0 for i in range(N*10)]
+
+def segmentTree(tree, node, left, right):
+    if left == right:
+        tree[node] = lst[left]
+        return tree[node]
+    mid = (left + right) // 2
+    leftV = segmentTree(tree, node*2, left, mid)
+    rightV = segmentTree(tree, node*2 + 1, mid+1, right)
+    tree[node] = leftV + rightV
+    return tree[node]
+
+M = int(input())        # 쿼리의 개수
+for _ in range(M):
+    x, y, z = map(int, input().split())
+    # if x == 1:
+    #     Query1(lst, y, z)
+    # elif x == 2:
+    #     print(Query2(lst, y, z))
+    segmentTree(tree, 1, 0, N-1)
 
 ```
 
@@ -108,7 +143,7 @@ import sys
 input = sys.stdin.readline
 
 # 반복문 구현
- 
+
 class SegmentTree:
 
     def __init__(self, arr:list) -> None:
@@ -116,7 +151,7 @@ class SegmentTree:
         self.tree = [[0,0] for _ in range(self.N << 1)]
         self.build(arr)
         return
-    
+
     def build(self, arr:list) -> None:
         for i in range(self.N):
             self.tree[i+self.N] = (arr[i], i+1)
@@ -136,26 +171,26 @@ class SegmentTree:
             self.tree[index] = min(self.tree[index<<1], self.tree[(index<<1)+1], key=lambda x:(x[0],x[1]))
             index >>= 1
         return
-    
+
 
     def find(self, start:int, end:int) -> int:
         start += self.N-1
         end += self.N
 
         result = (10**9+1, 0)
-        
+
         while start < end:
             if start & 1:
                 result = min(result, self.tree[start], key=lambda x:(x[0],x[1]))
                 start += 1
-            
+
             if end & 1:
                 end -= 1
                 result = min(result, self.tree[end], key=lambda x:(x[0],x[1]))
 
             start >>= 1
             end >>= 1
-        
+
         return result[1]
 
 
@@ -330,7 +365,7 @@ for i in range(1, N+1):
         if i-j<=arr[j] and max_jmp < D[j] + 1:
             max_jmp = D[j] + 1
     D[i] = max_jmp
- 
+
 print(max(D[:N]))
 ```
 
@@ -352,7 +387,7 @@ def check(num):
             tmp_sum = n_lst[i]
         if cnt > M+1:
             return cnt
-    
+
     return cnt
 
 N, M = map(int, input().split())
@@ -406,8 +441,8 @@ while e>s:
             people = guests[i]
     else:
         maxv = max(maxv, people)
-            
-            
+
+
     if count <= M:
         minv = min(minv, maxv)
         e = mid
@@ -487,19 +522,19 @@ def solution():
             start = i
             continue
         child[parent[i]-1].append(i)
-    
+
     claps = [0] * N
     for _ in range(M):
         i, w = map(int, input().split())
         claps[i-1] += w
-    
-    stack = [start] 
+
+    stack = [start]
     while stack:
         spot = stack.pop()
         for node in child[spot]:
             stack.append(node)
             claps[node] += claps[spot]
-    
+
     print(*claps)
     return
 
@@ -573,7 +608,7 @@ for _ in range(N-1):
     u, v = map(int, input().split())
     graph[u].append(v)
     graph[v].append(u)
- 
+
 def dfs(x:int, parent:int):
     zero, one = 0, 1
     for node in graph[x]:
